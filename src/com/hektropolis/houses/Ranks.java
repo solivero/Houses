@@ -7,16 +7,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 
-import com.hektropolis.houses.config.Config;
-
 public class Ranks {
 
-	private Config config;
 	private Houses plugin;
 
 	public Ranks(Houses plugin) {
-		this.plugin = plugin;
-		this.config = plugin.getHousesConfig();
+	    this.plugin = plugin;
 	}
 
 	public void setRank(String player, String buyClass, boolean buy){
@@ -26,7 +22,7 @@ public class Ranks {
 				plugin.reloadConfig();
 				String world = null;
 				String[] groups = Houses.permission.getPlayerGroups(world, player);
-				String rank = config.getConfig().getString("classes." + buyClass + ".rank");
+				String rank = plugin.getConfig().getString("classes." + buyClass + ".rank");
 				if(rank != null){
 					if(buy){
 						if(rs.next()) {
@@ -37,20 +33,19 @@ public class Ranks {
 									addRank(world, rank, player);
 								}
 							}
-						} else{
+						} else {
 							removeRanks(world, groups, player);
 							addRank(world, rank, player);
 						}
 					}
 					else if(!buy){
 						if(rs.next()){
-							String rankFromDB = config.getConfig().getString("classes." + rs.getString("class") + ".rank");
+							String rankFromDB = plugin.getConfig().getString("classes." + rs.getString("class") + ".rank");
 							if(!rs.getString("class").equalsIgnoreCase("admin") && !rs.getString("class").equalsIgnoreCase("moderator")) {
 								removeRanks(world, groups, player);
 								addRank(world, rankFromDB, player);
 							}
-						}
-						else{
+						} else{
 							removeRanks(world, groups, player);
 							Houses.permission.playerAddGroup(world, player, config.getConfig().getString("homeless"));
 							Bukkit.getServer().broadcastMessage(ChatColor.RED + "Player " + player + " is homeless!");

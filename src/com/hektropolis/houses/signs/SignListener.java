@@ -266,7 +266,7 @@ public class SignListener implements Listener{
 						door.setOpen(!door.isOpen());
 						state.update();
 						if(plugin.getConfig().getDouble("autoclose-door-delay") > 0) {
-							int delay = (int) plugin.getConfig().getDouble("autoclose-door-delay")*1000;
+							int delay = (int) plugin.getConfig().getDouble("autoclose-door-delay") * 20;
 							final Door closingDoor = door;
 							final BlockState fState = state;
 							Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {

@@ -398,12 +398,13 @@ public class Commands implements CommandExecutor {
 				ResultSet rsP = Houses.sqlite.query("SELECT class, number FROM houses WHERE player='" + sender.getName() + "' " +
 						"UNION ALL SELECT class, number FROM rentals WHERE player='" + sender.getName() + "' ORDER BY class ASC, number DESC");
 				if (rsP.next()) {
-					houseClass = rsP.getInt("class");
-					houseNumber = rsP.getInt("number");
+					houseClass = rsP.getString("class");
 					rsP.close();
-				} else
+					} else {
 					error.severe("You do not have access to a house");
-				rsP.close();
+					rsP.close();
+					return;
+				}
 				ResultSet rsS = Houses.sqlite.query("SELECT * FROM signs WHERE class=" + houseClass + " AND number=" + houseNumber);
 				Block doorBlock = null;
 				if (rsS.next()) {
